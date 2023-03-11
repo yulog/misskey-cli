@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/buger/jsonparser"
@@ -152,6 +153,7 @@ func pickNote(value []byte) (noteData, error) {
 	isCat, err := jsonparser.GetBoolean(value, "user", "isCat")
 	if isCat {
 		note.name = note.name + "(Cat)"
+		note.text = nyaize(note.text)
 	}
 
 	// ファイルが有れば
@@ -161,4 +163,20 @@ func pickNote(value []byte) (noteData, error) {
 	}
 
 	return note, nil
+}
+
+var replacer = strings.NewReplacer(
+	"な", "にゃ",
+	"ナ", "ニャ",
+	"ﾅ", "ﾆｬ",
+	"na", "nya",
+	"NA", "NYA",
+	"morning", "mornyan",
+	"MORNING", "MORNYAN",
+	"everyone", "everynyan",
+	"EVERYONE", "EVERYNYAN",
+)
+
+func nyaize(text string) string {
+	return replacer.Replace(text)
 }
