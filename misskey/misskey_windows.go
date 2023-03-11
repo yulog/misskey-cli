@@ -8,11 +8,11 @@ import (
 	"os"
 	"syscall"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 func terminalWidth() int {
-	width, _, err := terminal.GetSize(int(syscall.Stdout))
+	width, _, err := term.GetSize(int(syscall.Stdout))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error : %+v", err)
 		os.Exit(1)
