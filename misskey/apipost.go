@@ -5,14 +5,20 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 )
 
 func (c *Client) apiPost(jsonByte []byte, endpoint string) error {
 
+	endpoint, err := url.JoinPath(c.InstanceInfo.Host, "api", endpoint)
+	if err != nil {
+		return err
+	}
+
 	req, err := http.NewRequest(
 		"POST",
-		c.InstanceInfo.Host+"/api/"+endpoint,
+		endpoint,
 		bytes.NewBuffer(jsonByte),
 	)
 	if err != nil {
@@ -23,6 +29,9 @@ func (c *Client) apiPost(jsonByte []byte, endpoint string) error {
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
 
 	c.resBuf = new(bytes.Buffer)
 	if _, err = io.Copy(c.resBuf, resp.Body); err != nil {
