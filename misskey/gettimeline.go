@@ -170,11 +170,9 @@ var replacer = strings.NewReplacer(
 	"ナ", "ニャ",
 	"ﾅ", "ﾆｬ",
 	"na", "nya",
+	"Na", "Nya",
+	"nA", "nYA",
 	"NA", "NYA",
-	"morning", "mornyan",
-	"MORNING", "MORNYAN",
-	"everyone", "everynyan",
-	"EVERYONE", "EVERYNYAN",
 )
 
 func nyaize(text string) string {
